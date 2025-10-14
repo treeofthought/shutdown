@@ -24,6 +24,7 @@
             align-items: center;
             justify-content: center;
             padding: 2rem;
+            color: rgba(255, 255, 255, 0.95);
         }
 
         .question {
@@ -36,7 +37,6 @@
         }
 
         .answer {
-            color: #ffffff;
             font-size: clamp(8rem, 25vw, 20rem);
             font-weight: 900;
             text-align: center;
@@ -48,13 +48,30 @@
         footer {
             position: absolute;
             bottom: 2rem;
-            color: rgba(255, 255, 255, 0.7);
             font-size: 0.875rem;
             text-align: center;
         }
 
         .version {
             font-size: 0.75rem;
+        }
+
+        .timerLabel {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .timer {
+            font-size: 2.5em;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+            margin-top: 10px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
         }
 
         @keyframes fadeIn {
@@ -80,10 +97,31 @@
 <body>
     <div class="question">Is the US Government Open?</div>
     <div class="answer">No.</div>
+    <div class="timerLabel">The government has been shutdown for</div>
+    <div class="timer" id="timer">Loading...</div>
     <footer>
         Last updated: October 2025
-        <div class="version">v0.1.1</div>
+        <div class="version">v0.2.0</div>
     </footer>
+    <script>
+        const shutdownStart = new Date('2025-10-01T00:01:00-04:00');
+
+        function updateTimer() {
+            const now = new Date();
+            const diff = now - shutdownStart;
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            document.getElementById('timer').textContent =
+                `${days}d ${hours}h ${minutes}m ${seconds}s`;
+        }
+
+        updateTimer();
+        setInterval(updateTimer, 1000);
+    </script>
 </body>
 
 </html>
